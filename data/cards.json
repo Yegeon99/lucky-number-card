@@ -1,0 +1,139 @@
+{
+  "_comment": "BABYMONSTER 3rd Mini Album [춤 (CHOOM)] 기준 데모 세트. 개인 6장(라미는 활동 중단으로 이 앨범 화보 없음) + 단체 1장. 카드 일련번호는 멤버 생일(월월일일), 단체 카드는 발매일(0504). 번호는 관리 화면(/admin)에서 바로 수정할 수 있다. 카드 식별자는 bm-choom-<디자인>-<번호> 로 번호가 바뀌면 함께 바뀐다. 이미지 출처는 public/choom/SOURCES.txt 참고. 누끼(cutoutImage)는 node scripts/make-cutouts.mjs 로 만든다.",
+  "set": {
+    "id": "bm-choom-v1",
+    "name": "BABYMONSTER CHOOM 포토카드 세트",
+    "artist": "BABYMONSTER",
+    "album": "3rd Mini Album [CHOOM]",
+    "albumKo": "춤",
+    "issuedPerDesign": 3000,
+    "issuedAt": "2026-05-04",
+    "manufacturer": "포레스트팩토리",
+    "logoImage": "/choom/logo-choom.svg",
+    "heroImage": "/choom/cover-digital.webp",
+    "groupImage": "/choom/group-3.webp",
+    "designs": [
+      {
+        "id": "ruka",
+        "member": "루카",
+        "nameEn": "RUKA",
+        "accent": "#B3151A",
+        "cutImage": "/choom/ruka-3.webp",
+        "cutoutImage": "/choom/cutout/ruka.png"
+      },
+      {
+        "id": "pharita",
+        "member": "파리타",
+        "nameEn": "PHARITA",
+        "accent": "#B3151A",
+        "cutImage": "/choom/pharita-3.webp",
+        "cutoutImage": "/choom/cutout/pharita.png"
+      },
+      {
+        "id": "asa",
+        "member": "아사",
+        "nameEn": "ASA",
+        "accent": "#B3151A",
+        "cutImage": "/choom/asa-3.webp",
+        "cutoutImage": "/choom/cutout/asa.png"
+      },
+      {
+        "id": "ahyeon",
+        "member": "아현",
+        "nameEn": "AHYEON",
+        "accent": "#B3151A",
+        "cutImage": "/choom/ahyeon-3.webp",
+        "cutoutImage": "/choom/cutout/ahyeon.png"
+      },
+      {
+        "id": "rora",
+        "member": "로라",
+        "nameEn": "RORA",
+        "accent": "#B3151A",
+        "cutImage": "/choom/rora-3.webp",
+        "cutoutImage": "/choom/cutout/rora.png"
+      },
+      {
+        "id": "chiquita",
+        "member": "치키타",
+        "nameEn": "CHIQUITA",
+        "accent": "#B3151A",
+        "cutImage": "/choom/chiquita-3.webp",
+        "cutoutImage": "/choom/cutout/chiquita.png"
+      },
+      {
+        "id": "group",
+        "member": "단체",
+        "nameEn": "BABYMONSTER",
+        "accent": "#B3151A",
+        "cutImage": "/choom/group-2.webp",
+        "cutoutImage": "/choom/cutout/group.png"
+      }
+    ]
+  },
+  "cards": [
+    {
+      "id": "bm-choom-ruka-0320",
+      "designId": "ruka",
+      "serial": "0320",
+      "tagToken": "K7M2QX9RA4TB",
+      "image": "/choom/ruka-1.webp",
+      "frameId": "frame-ruka",
+      "meaning": "루카 생일 번호"
+    },
+    {
+      "id": "bm-choom-pharita-0826",
+      "designId": "pharita",
+      "serial": "0826",
+      "tagToken": "P3WZ8HN5LC2D",
+      "image": "/choom/pharita-1.webp",
+      "frameId": "frame-pharita",
+      "meaning": "파리타 생일 번호"
+    },
+    {
+      "id": "bm-choom-asa-0417",
+      "designId": "asa",
+      "serial": "0417",
+      "tagToken": "A9F4JD7VXQ1S",
+      "image": "/choom/asa-1.webp",
+      "frameId": "frame-asa",
+      "meaning": "아사 생일 번호"
+    },
+    {
+      "id": "bm-choom-ahyeon-0411",
+      "designId": "ahyeon",
+      "serial": "0411",
+      "tagToken": "H2RT6MZ8KP5Y",
+      "image": "/choom/ahyeon-1.webp",
+      "frameId": "frame-ahyeon",
+      "meaning": "아현 생일 번호"
+    },
+    {
+      "id": "bm-choom-rora-0814",
+      "designId": "rora",
+      "serial": "0814",
+      "tagToken": "L8DK2VF6TM4G",
+      "image": "/choom/rora-1.webp",
+      "frameId": "frame-rora",
+      "meaning": "로라 생일 번호"
+    },
+    {
+      "id": "bm-choom-chiquita-0217",
+      "designId": "chiquita",
+      "serial": "0217",
+      "tagToken": "C4NQ7YB3ZH9J",
+      "image": "/choom/chiquita-1.webp",
+      "frameId": "frame-chiquita",
+      "meaning": "치키타 생일 번호"
+    },
+    {
+      "id": "bm-choom-group-0504",
+      "designId": "group",
+      "serial": "0504",
+      "tagToken": "R5XC3BQ9WN7E",
+      "image": "/choom/group-1.webp",
+      "frameId": "frame-group",
+      "meaning": "발매일 번호"
+    }
+  ]
+}

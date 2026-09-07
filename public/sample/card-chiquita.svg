@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1700" viewBox="0 0 1100 1700">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#76a058"/>
+      <stop offset="0.55" stop-color="#5E8F3B"/>
+      <stop offset="1" stop-color="#344f20"/>
+    </linearGradient>
+    <radialGradient id="h" cx="0.3" cy="0.25" r="0.8">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1100" height="1700" fill="url(#g)"/>
+  <rect width="1100" height="1700" fill="url(#h)"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="3">
+    <rect x="60" y="60" width="980" height="1580" rx="28"/>
+  </g>
+  <text x="550" y="780" text-anchor="middle" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="150" font-weight="700" fill="#ffffff" fill-opacity="0.92">치키타</text>
+  <text x="550" y="880" text-anchor="middle" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="46" font-weight="500" letter-spacing="6" fill="#ffffff" fill-opacity="0.75">BABYMONSTER · DRIP</text>
+  <text x="550" y="1560" text-anchor="middle" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="38" font-weight="500" fill="#ffffff" fill-opacity="0.8">샘플 이미지, 실제 상품과 무관</text>
+</svg>

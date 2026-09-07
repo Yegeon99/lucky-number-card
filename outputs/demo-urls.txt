@@ -1,0 +1,3 @@
+정품 일반 (루카 0320)	http://192.168.10.160:3000/c/bm-choom-ruka-0320?t=K7M2QX9RA4TB
+럭키 (치키타 0217)	http://192.168.10.160:3000/c/bm-choom-chiquita-0217?t=C4NQ7YB3ZH9J
+확인 불가 (목록에 없는 카드)	http://192.168.10.160:3000/c/bm-choom-unknown-9999?t=ZZZZ0000AAAA

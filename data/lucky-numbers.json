@@ -1,0 +1,21 @@
+{
+  "_comment": "럭키 번호 목록. 의미 번호(생일)와 겹칠 수 있다. 데모 기본값은 치키타 0217 한 장.",
+  "publishedAt": "2026-10-01",
+  "revealAt": "2027-01-31",
+  "entryDeadline": "2027-01-15",
+  "contact": "lucky@bigglz.co.kr",
+  "grades": [
+    {
+      "grade": "S",
+      "count": 1,
+      "benefit": "멤버 친필 사인 폴라로이드 1장과 팬미팅 초대"
+    }
+  ],
+  "numbers": [
+    {
+      "designId": "chiquita",
+      "serial": "0217",
+      "grade": "S"
+    }
+  ]
+}

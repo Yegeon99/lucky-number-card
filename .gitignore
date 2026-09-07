@@ -1,0 +1,9 @@
+node_modules
+.next
+.env.local
+data/registrations.json
+certificates
+outputs/shots
+.vercel
+*.tsbuildinfo
+*.tmp
