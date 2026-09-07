@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Switch } from "./Switch";
 import { isAdminMode, setAdminMode } from "@/lib/admin-mode";
+import { useCollection } from "@/lib/collection";
 
 type Item = {
   id: string;
+  designId: string;
   member: string;
   nameEn: string;
   serial: string;
@@ -32,10 +34,16 @@ export function DemoLanding({
   footer: string;
 }) {
   const [hints, setHints] = useState(false);
+  // 내 도감(이 기기에서 태그한 카드). 관리자 모드가 꺼져 있으면 도감에 있는 멤버만 선명하게 보인다.
+  const collected = useCollection((s) => s.items);
+  const hydrated = useCollection((s) => s.hydrated);
+  const hydrate = useCollection((s) => s.hydrate);
+  const ownedDesigns = new Set(collected.map((c) => c.designId));
 
   useEffect(() => {
     setHints(isAdminMode());
-  }, []);
+    hydrate();
+  }, [hydrate]);
 
   const setHintsPersist = (next: boolean) => {
     setHints(next);
@@ -124,7 +132,11 @@ export function DemoLanding({
                 ease: [0.2, 0.8, 0.2, 1],
               }}
             >
-              <PhotoCard item={it} showHint={hints} />
+              <PhotoCard
+                item={it}
+                showHint={hints}
+                owned={hints || !hydrated || ownedDesigns.has(it.designId)}
+              />
             </motion.li>
           ))}
 
@@ -196,7 +208,15 @@ export function DemoLanding({
   );
 }
 
-function PhotoCard({ item, showHint }: { item: Item; showHint: boolean }) {
+function PhotoCard({
+  item,
+  showHint,
+  owned,
+}: {
+  item: Item;
+  showHint: boolean;
+  owned: boolean;
+}) {
   return (
     <Link
       href={item.href}
@@ -206,7 +226,9 @@ function PhotoCard({ item, showHint }: { item: Item; showHint: boolean }) {
       <motion.div
         whileTap={{ scale: 0.96 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className="card-gloss relative aspect-[55/85] w-full overflow-hidden rounded-[14px] bg-paper-3 shadow-card"
+        className={`card-gloss relative aspect-[55/85] w-full overflow-hidden rounded-[14px] bg-paper-3 shadow-card transition-[opacity,filter] duration-500 ${
+          owned ? "" : "opacity-45 grayscale-[35%] blur-[1.2px]"
+        }`}
       >
         {/* 카드 컷: 앨범 공식 화보 */}
         {item.image ? (

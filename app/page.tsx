@@ -14,6 +14,7 @@ export default function DemoIndex() {
     const design = findDesign(c.designId);
     return {
       id: c.id,
+      designId: c.designId,
       member: design?.member ?? c.designId,
       nameEn: design?.nameEn ?? c.designId.toUpperCase(),
       serial: c.serial,
