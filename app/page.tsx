@@ -32,7 +32,6 @@ export default function DemoIndex() {
         image: cardSet.heroImage ?? "",
         artist: cardSet.artist,
         album: cardSet.album,
-        albumKo: cardSet.albumKo ?? "",
       }}
       footer={`${cardSet.artist} · ${cardSet.album} · 제작 ${cardSet.manufacturer}`}
     />

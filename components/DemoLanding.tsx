@@ -18,7 +18,7 @@ type Item = {
   hint: "lucky" | "meaning" | null;
 };
 
-type Hero = { image: string; artist: string; album: string; albumKo: string };
+type Hero = { image: string; artist: string; album: string };
 
 export function DemoLanding({ items, missingHref, hero, footer }: { items: Item[]; missingHref: string; hero: Hero; footer: string }) {
   const [hints, setHints] = useState(false);
@@ -61,17 +61,9 @@ export function DemoLanding({ items, missingHref, hero, footer }: { items: Item[
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-            className="mt-9 flex items-end gap-2"
+            className="mt-9"
           >
             <h1 className="font-wide text-[50px] leading-[0.86] tracking-[-0.02em] text-black">CHOOM</h1>
-            {hero.albumKo && (
-              <span
-                className="mb-[3px] inline-block bg-black px-[7px] py-1 text-[14px] font-extrabold leading-none text-ink"
-                aria-label={`${hero.albumKo} (한국어 제목)`}
-              >
-                {hero.albumKo}
-              </span>
-            )}
           </motion.div>
 
           <div className="mt-6 inline-block bg-black px-3 py-2">
