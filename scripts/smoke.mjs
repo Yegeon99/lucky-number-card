@@ -84,11 +84,11 @@ async function main() {
   const statusBar = () => page.locator("div.sticky.top-0").first();
 
   // 1. 정품 일반 카드: 초록 띠, 번호, 도감 자동 등록
-  await check("정품 카드: 상단 띠에 '정품 · No. 0320 / 3000'", async () => {
+  await check("정품 카드: 상단 띠에 '정품 · No. 0320 / 1000'", async () => {
     await page.goto(base + CARDS.plain);
     await page.getByText("정품", { exact: false }).first().waitFor({ timeout: 15_000 });
     const text = (await statusBar().innerText()).replace(/\s+/g, " ");
-    if (!/정품.*0320.*3000/.test(text)) throw new Error(`띠 문구: ${text}`);
+    if (!/정품.*0320.*1000/.test(text)) throw new Error(`띠 문구: ${text}`);
   });
 
   await check("정품 카드: 럭키 아님 → 어떤 결과 문구도 없음", async () => {

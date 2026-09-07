@@ -63,7 +63,7 @@ export default function OpenGraphImage() {
               fontWeight: 700,
             }}
           >
-            VERIFIED · No. 0320 / 3000
+            VERIFIED · No. 0320 / 1000
           </div>
           <div style={{ fontSize: 24, color: "#8b867c" }}>Tap your card. No app, no login.</div>
         </div>

@@ -126,6 +126,10 @@ function writeJsonAtomic(file: string, data: unknown) {
 export function updateCardSerial(designId: string, serial: string): { before: CardRecord; after: CardRecord } {
   if (!/^\d{4}$/.test(serial)) throw new Error("번호는 숫자 4자리여야 합니다.");
   const file = readJson(CARDS_PATH, cardsCache);
+  const n = Number(serial);
+  if (n < 1 || n > file.set.issuedPerDesign) {
+    throw new Error(`번호는 0001~${String(file.set.issuedPerDesign).padStart(4, "0")} 사이여야 합니다.`);
+  }
   const idx = file.cards.findIndex((c) => c.designId === designId);
   if (idx < 0) throw new Error("카드를 찾을 수 없습니다.");
   const before = file.cards[idx];
