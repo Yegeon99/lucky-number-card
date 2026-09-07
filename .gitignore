@@ -7,3 +7,4 @@ outputs/shots
 .vercel
 *.tsbuildinfo
 *.tmp
+.env*

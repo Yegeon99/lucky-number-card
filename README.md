@@ -44,6 +44,8 @@ npm run dev:https  # https://localhost:3000 (폰에서 카메라를 쓰려면 �
 
 ## 배포 (Vercel)
 
+프로덕션 주소: https://lucky-number-card.vercel.app (프로젝트 `lucky-number-card`, 2026-09-07 첫 배포)
+
 배포 환경은 서버 파일을 쓸 수 없으므로 등록 상태 저장소가 필요하다. Vercel 마켓플레이스의 Upstash Redis 를 붙이면 환경 변수가 자동으로 들어간다.
 
 ```bash
