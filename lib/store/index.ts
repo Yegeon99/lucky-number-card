@@ -1,5 +1,6 @@
 import "server-only";
 import { createFileBackend } from "./file";
+import { createMemoryBackend } from "./memory";
 import { createRedisBackend, isRedisConfigured } from "./redis";
 import type { Registration, StoreBackend } from "./types";
 import { applyVisit } from "./visit";
@@ -12,12 +13,24 @@ export type { Registration } from "./types";
  */
 let backend: StoreBackend | null = null;
 function store(): StoreBackend {
-  return (backend ??= isRedisConfigured() ? createRedisBackend() : createFileBackend());
+  if (!backend) {
+    const kind = storeKind();
+    backend = kind === "redis" ? createRedisBackend() : kind === "memory" ? createMemoryBackend() : createFileBackend();
+    if (kind === "memory") {
+      console.warn("[store] Redis 미설정: 등록 상태를 메모리에만 둡니다. 인스턴스가 바뀌면 초기화됩니다. `vercel integration add upstash/upstash-kv` 로 연결하세요.");
+    }
+  }
+  return backend;
 }
 
-/** 지금 어떤 백엔드를 쓰는지 (관리 화면 표시용) */
-export function storeKind(): "redis" | "file" {
-  return isRedisConfigured() ? "redis" : "file";
+/**
+ * 지금 어떤 백엔드를 쓰는지.
+ * redis: Upstash 환경 변수 있음. file: 로컬. memory: 배포 환경(파일 쓰기 불가)인데 Redis 가 아직 없을 때의 임시 대체.
+ */
+export function storeKind(): "redis" | "file" | "memory" {
+  if (isRedisConfigured()) return "redis";
+  if (process.env.VERCEL) return "memory";
+  return "file";
 }
 
 export async function getRegistration(cardId: string): Promise<Registration | null> {

@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * 데모 시연용 입구. 실제 팬은 NFC 태그로 /c/[id]?t=... 주소에 바로 들어온다.
- * 럭키 여부와 의미 번호는 시연 힌트 점을 위해서만 내려가며 문구로는 쓰지 않는다.
+ * 럭키 여부와 의미 번호는 관리자 모드 힌트 점을 위해서만 내려가며 문구로는 쓰지 않는다.
  */
 export default function DemoIndex() {
   const cardSet = getCardSet();

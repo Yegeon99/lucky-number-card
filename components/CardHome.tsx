@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { getDeviceToken } from "@/lib/device";
+import { isAdminMode } from "@/lib/admin-mode";
 import { useCollection } from "@/lib/collection";
 import { saveSessionCard } from "@/lib/session-card";
 import type { VerifyResult } from "@/lib/verify/types";
@@ -22,6 +23,7 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
   const [sheetOpen, setSheetOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   const [collected, setCollected] = useState(false);
+  const [adminMode, setAdminMode] = useState(false);
   const startedRef = useRef(false);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const addToCollection = useCollection((s) => s.add);
@@ -86,6 +88,7 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
 
   useEffect(() => {
     hydrate();
+    setAdminMode(isAdminMode());
     if (startedRef.current) return;
     startedRef.current = true;
     void verify();
@@ -172,7 +175,16 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
         <div className="mt-auto flex flex-col gap-3 pt-8">
           {status === "unverified" ? (
             <>
-              <PrimaryButton disabled>함께 찍기</PrimaryButton>
+              {/* 관리자 모드: 카드 확인 없이도 프레임 검수용으로 함께 찍기를 연다. 정품 표시와 도감은 그대로 잠김. */}
+              <PrimaryButton onClick={goStudio} disabled={!adminMode}>
+                {adminMode && <CameraIcon />}
+                <span className={adminMode ? "ml-2" : ""}>함께 찍기</span>
+              </PrimaryButton>
+              {adminMode && (
+                <p className="px-1 text-center text-[12.5px] leading-relaxed text-warn">
+                  관리자 모드: 카드 확인 없이 함께 찍기를 열어요. 정품 표시와 도감 등록은 되지 않아요.
+                </p>
+              )}
               <div className="grid grid-cols-2 gap-3">
                 <SecondaryButton onClick={() => void verify()}>재시도</SecondaryButton>
                 <SecondaryButton href={CONTACT_MAIL}>문의</SecondaryButton>

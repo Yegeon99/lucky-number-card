@@ -8,6 +8,7 @@ import { availableFrames, randomSide, type FrameDef, type Side } from "@/lib/fra
 import { canvasToBlob, composeSingle, todayText, toWallpaper, type Shot } from "@/lib/compose";
 import { loadSessionCard } from "@/lib/session-card";
 import { cardHref } from "@/lib/card-link";
+import { parseCardId } from "@/lib/admin-mode";
 import type { PublicSet } from "@/lib/public-set";
 import { PrimaryButton, SecondaryButton, Toast, TopBar } from "./ui";
 
@@ -66,6 +67,13 @@ export function Studio({ set }: { set: PublicSet }) {
         member: fromCollection.member,
         accent: fromCollection.accent,
       });
+      return;
+    }
+    // 카드 확인 없이 들어온 경우(관리자 모드): 카드 식별자에서 디자인과 번호를 읽는다.
+    const parsed = cardParam ? parseCardId(cardParam, set.designs.map((x) => x.id)) : null;
+    const fromId = parsed ? set.designs.find((x) => x.id === parsed.designId) : null;
+    if (parsed && fromId) {
+      setCurrent({ id: cardParam, tagToken: null, designId: fromId.id, serial: parsed.serial, member: fromId.member, accent: fromId.accent });
       return;
     }
     const d = set.designs[0];

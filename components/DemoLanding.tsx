@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Switch } from "./Switch";
+import { isAdminMode, setAdminMode } from "@/lib/admin-mode";
 
 type Item = {
   id: string;
@@ -13,32 +14,22 @@ type Item = {
   image: string;
   href: string;
   accent: string;
-  /** 시연 힌트 점에만 쓰인다. 문구로는 쓰지 않는다. */
+  /** 관리자 모드 힌트 점에만 쓰인다. 문구로는 쓰지 않는다. */
   hint: "lucky" | "meaning" | null;
 };
 
 type Hero = { image: string; artist: string; album: string; albumKo: string };
 
-const HINT_KEY = "lnc.demoHints";
-
 export function DemoLanding({ items, missingHref, hero, footer }: { items: Item[]; missingHref: string; hero: Hero; footer: string }) {
   const [hints, setHints] = useState(false);
 
   useEffect(() => {
-    try {
-      setHints(window.localStorage.getItem(HINT_KEY) === "1");
-    } catch {
-      // 무시
-    }
+    setHints(isAdminMode());
   }, []);
 
   const setHintsPersist = (next: boolean) => {
     setHints(next);
-    try {
-      window.localStorage.setItem(HINT_KEY, next ? "1" : "0");
-    } catch {
-      // 무시
-    }
+    setAdminMode(next);
   };
 
   const albumLabel = hero.album.replace(/\[.*\]/, "").trim().toUpperCase();
@@ -62,7 +53,7 @@ export function DemoLanding({ items, missingHref, hero, footer }: { items: Item[
               {albumLabel}
             </p>
             <div className="-mt-1 shrink-0 rounded-full bg-black/55 px-2 py-1 backdrop-blur">
-              <Switch id="demo-hints" label="시연 힌트" checked={hints} onChange={setHintsPersist} />
+              <Switch id="admin-mode" label="관리자 모드" checked={hints} onChange={setHintsPersist} />
             </div>
           </div>
 
@@ -167,7 +158,7 @@ function PhotoCard({ item, showHint }: { item: Item; showHint: boolean }) {
           <div className="absolute inset-0" style={{ background: item.accent }} />
         )}
 
-        {/* 시연 힌트 점 */}
+        {/* 관리자 모드 힌트 점 */}
         {showHint && item.hint && (
           <span className={`absolute right-2.5 top-2.5 z-[4] h-2.5 w-2.5 rounded-full ${item.hint === "lucky" ? "dot-gold" : "dot-silver"}`} />
         )}
