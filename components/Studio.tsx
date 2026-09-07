@@ -468,7 +468,8 @@ function Compose({
   return (
     <div className="flex flex-1 flex-col">
       <div className="flex flex-1 items-center justify-center px-6 pt-4">
-        <div className="relative aspect-[3/4] h-[48dvh] max-w-full overflow-hidden rounded-xl bg-paper-2 shadow-card">
+        {/* 폭 우선으로 키우고, 키 작은 화면에서는 높이로 제한한다 */}
+        <div className="relative overflow-hidden rounded-xl bg-paper-2 shadow-card" style={{ width: "min(100%, calc(56dvh * 0.75))", aspectRatio: "3 / 4" }}>
           {url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={url} alt="미리보기" className="h-full w-full object-contain" />
@@ -620,7 +621,14 @@ function Result({
   return (
     <div className="flex flex-1 flex-col">
       <div className="flex flex-1 items-center justify-center px-6 pt-4">
-        <div className={`relative overflow-hidden rounded-xl shadow-card ${mode === "wallpaper" ? "h-[56dvh] aspect-[9/19.5]" : "h-[56dvh] aspect-[3/4] max-w-full"}`}>
+        <div
+          className="relative overflow-hidden rounded-xl shadow-card"
+          style={
+            mode === "wallpaper"
+              ? { width: "min(72%, calc(64dvh * 9 / 19.5))", aspectRatio: "9 / 19.5" }
+              : { width: "min(100%, calc(64dvh * 0.75))", aspectRatio: "3 / 4" }
+          }
+        >
           {url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={url} alt="완성 사진" className="h-full w-full object-contain" />
