@@ -8,3 +8,8 @@ outputs/shots
 *.tsbuildinfo
 *.tmp
 .env*
+
+# Vercel CLI 가 설치한 Upstash 참고 문서 (코드 아님)
+.agents/
+.claude/skills/
+skills-lock.json

@@ -5,8 +5,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 
 // 등록 상태는 임시 파일에 쓴다. data/registrations.json 은 건드리지 않는다.
 process.env.LNC_STORE_FILE = path.join(mkdtempSync(path.join(tmpdir(), "lnc-")), "registrations.json");
-delete process.env.UPSTASH_REDIS_REST_URL;
-delete process.env.UPSTASH_REDIS_REST_TOKEN;
+for (const k of ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "KV_REST_API_URL", "KV_REST_API_TOKEN", "VERCEL"]) delete process.env[k];
 
 const RUKA = { id: "bm-choom-ruka-0320", token: "K7M2QX9RA4TB" };
 const LUCKY = { id: "bm-choom-chiquita-0217", token: "C4NQ7YB3ZH9J" };

@@ -38,7 +38,7 @@ npm run dev:https  # https://localhost:3000 (폰에서 카메라를 쓰려면 �
 ## 교체 지점
 
 - 정품 검증을 정식(보안 칩 서명 확인)으로 바꿀 때: `lib/verify/index.ts` 한 파일. `verifyCard` 안의 `verifyMock` 호출을 `verifyWithSecureChip` 으로 바꾸고 그 함수를 채운다. 입력·출력 형태는 `lib/verify/types.ts` 에 고정되어 있다.
-- 서버 저장: `lib/store/` 안에 파일 백엔드(`file.ts`, 로컬용)와 Upstash Redis 백엔드(`redis.ts`, 배포용)가 있다. `UPSTASH_REDIS_REST_URL` 과 `UPSTASH_REDIS_REST_TOKEN` 이 있으면 Redis, 없으면 `data/registrations.json` 파일을 쓴다. 다른 저장소로 바꿀 때는 `lib/store/types.ts` 의 `StoreBackend` 형태에 맞춰 파일 하나를 추가하고 `index.ts` 에서 고르면 된다.
+- 서버 저장: `lib/store/` 안에 파일 백엔드(`file.ts`, 로컬용)와 Upstash Redis 백엔드(`redis.ts`, 배포용)가 있다. `KV_REST_API_URL` 과 `KV_REST_API_TOKEN`(또는 `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`)이 있으면 Redis, 없으면 `data/registrations.json` 파일을 쓴다. 다른 저장소로 바꿀 때는 `lib/store/types.ts` 의 `StoreBackend` 형태에 맞춰 파일 하나를 추가하고 `index.ts` 에서 고르면 된다.
 - 이미지: `public/choom/` (CHOOM 공식 공개 화보, 출처 `public/choom/SOURCES.txt`, 재다운로드 `node scripts/fetch-choom.mjs`). 경로는 `data/cards.json` 의 image / cutImage / heroImage / groupImage. 실제 상품 사용은 기획사 승인 필요.
 - 카드 목록과 럭키 목록: `data/cards.json`, `data/lucky-numbers.json`. 럭키 목록을 바꾸면 안내 페이지 해시가 자동으로 다시 계산된다.
 

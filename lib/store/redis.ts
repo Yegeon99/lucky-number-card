@@ -9,13 +9,30 @@ import type { Registration, StoreBackend } from "./types";
 const PREFIX = "lnc:reg:";
 const INDEX = "lnc:reg:index";
 
+/**
+ * Vercel 마켓플레이스 Upstash 연동은 KV_REST_API_URL / KV_REST_API_TOKEN 이름으로,
+ * Upstash 콘솔에서 직접 만들면 UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN 이름으로 들어온다. 둘 다 받는다.
+ */
+export function redisCredentials(): { url: string; token: string } | null {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  return url && token ? { url, token } : null;
+}
+
 export function isRedisConfigured(): boolean {
-  return Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  return redisCredentials() !== null;
 }
 
 export function createRedisBackend(): StoreBackend {
   let client: Redis | null = null;
-  const redis = () => (client ??= Redis.fromEnv());
+  const redis = () => {
+    if (!client) {
+      const cred = redisCredentials();
+      if (!cred) throw new Error("Redis 환경 변수가 없습니다");
+      client = new Redis(cred);
+    }
+    return client;
+  };
 
   return {
     async get(cardId) {

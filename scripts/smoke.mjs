@@ -36,7 +36,7 @@ function run(args, env) {
  */
 async function startServer() {
   const storeFile = path.join(mkdtempSync(path.join(tmpdir(), "lnc-smoke-")), "registrations.json");
-  const env = { ...process.env, LNC_STORE_FILE: storeFile, UPSTASH_REDIS_REST_URL: "", UPSTASH_REDIS_REST_TOKEN: "" };
+  const env = { ...process.env, LNC_STORE_FILE: storeFile, UPSTASH_REDIS_REST_URL: "", UPSTASH_REDIS_REST_TOKEN: "", KV_REST_API_URL: "", KV_REST_API_TOKEN: "" };
   if (process.env.SKIP_BUILD !== "1") {
     console.log("배포용 빌드 중 (next build)...");
     await run(["build"], env);
