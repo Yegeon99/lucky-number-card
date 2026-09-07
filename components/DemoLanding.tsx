@@ -93,12 +93,12 @@ export function DemoLanding({
           </motion.div>
 
           <div className="mt-6 inline-block bg-black px-3 py-2">
-            <p className="text-[22px] font-extrabold leading-none tracking-tight text-ink">
-              럭키 넘버 카드
+            <p className="font-wide whitespace-nowrap text-[15px] leading-none tracking-[0.04em] text-ink">
+              BABYMONSTER PHOTO FRAME
             </p>
           </div>
-          <p className="mt-3 max-w-[280px] text-[14px] leading-relaxed text-ink">
-            내 포토카드 멤버와 함께 찍는 프레임. 정품은 기본, 럭키 넘버는 덤.
+          <p className="mt-3 max-w-[320px] break-keep text-[14px] leading-relaxed text-ink">
+            포토카드의 멤버와 함께 프레임 사진을 찍고 행운의 번호를 노려보세요!
           </p>
         </div>
       </header>

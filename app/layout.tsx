@@ -13,7 +13,7 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ??
   (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
 
-const DESCRIPTION = "내 포토카드 멤버와 함께 찍는 프레임. 정품은 기본, 럭키 넘버는 덤.";
+const DESCRIPTION = "포토카드의 멤버와 함께 프레임 사진을 찍고 행운의 번호를 노려보세요!";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
