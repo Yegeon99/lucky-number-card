@@ -226,22 +226,24 @@ function PhotoCard({
       <motion.div
         whileTap={{ scale: 0.96 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className={`card-gloss relative aspect-[55/85] w-full overflow-hidden rounded-[14px] bg-paper-3 shadow-card transition-[opacity,filter] duration-500 ${
-          owned ? "" : "opacity-30 grayscale-[80%] blur-[7px] brightness-[0.55]"
+        className={`card-gloss relative aspect-[55/85] w-full overflow-hidden rounded-[14px] shadow-card ${
+          owned ? "bg-paper-3" : "bg-[#2a2826] ring-1 ring-white/10"
         }`}
       >
-        {/* 카드 컷: 앨범 공식 화보 */}
+        {/* 카드 컷: 앨범 공식 화보. 미보유면 카드 틀은 그대로 두고 안쪽 그림만 흐린다 */}
         {item.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={item.image}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover object-top"
+            className={`absolute inset-0 h-full w-full object-cover object-top transition-[opacity,filter] duration-500 ${
+              owned ? "" : "scale-110 opacity-40 grayscale-[80%] blur-[9px] brightness-[0.6]"
+            }`}
             draggable={false}
           />
         ) : (
           <div
-            className="absolute inset-0"
+            className={`absolute inset-0 ${owned ? "" : "opacity-40"}`}
             style={{ background: item.accent }}
           />
         )}
