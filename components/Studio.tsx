@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { hasLuckyCard, isSetComplete, useCollection } from "@/lib/collection";
 import { availableFrames, randomSide, type FrameDef, type Side } from "@/lib/frames";
-import { canvasToBlob, composeSingle, todayText, toWallpaper, type Shot } from "@/lib/compose";
+import { PHOTO_ASPECT, canvasToBlob, composeSingle, todayText, toWallpaper, type Shot } from "@/lib/compose";
 import { loadSessionCard } from "@/lib/session-card";
 import { cardHref } from "@/lib/card-link";
 import { parseCardId } from "@/lib/admin-mode";
@@ -229,6 +229,34 @@ function Intro({
   );
 }
 
+/** 영상 안에서 합성 사진 영역 비율(PHOTO_ASPECT)로 가운데 최대 크기 상자 */
+function cropBox(vw: number, vh: number): { w: number; h: number } {
+  let w = vw;
+  let h = Math.round(vw / PHOTO_ASPECT);
+  if (h > vh) {
+    h = vh;
+    w = Math.round(vh * PHOTO_ASPECT);
+  }
+  return { w, h };
+}
+
+/**
+ * 폰 카메라가 디지털 줌이 걸린 채로 열리면 1배로 되돌린다.
+ * 초광각(1배 미만)은 왜곡이 커서 쓰지 않는다. 지원 안 하는 기기·전면 카메라는 조용히 넘어간다.
+ */
+async function widenTrack(track: MediaStreamTrack | undefined) {
+  if (!track) return;
+  try {
+    const caps = (track.getCapabilities?.() ?? {}) as MediaTrackCapabilities & { zoom?: { min: number; max: number } };
+    const cur = (track.getSettings() as MediaTrackSettings & { zoom?: number }).zoom;
+    if (!caps.zoom || cur === undefined) return;
+    const target = Math.max(caps.zoom.min, 1);
+    if (cur > target) await track.applyConstraints({ advanced: [{ zoom: target } as MediaTrackConstraintSet] });
+  } catch {
+    // 줌 조절 실패는 무시
+  }
+}
+
 /* 2. 촬영: 3초 카운트다운 후 한 장 */
 function Capture({ onShot, onFile }: { onShot: (s: Shot) => void; onFile: (files: FileList) => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -238,6 +266,8 @@ function Capture({ onShot, onFile }: { onShot: (s: Shot) => void; onFile: (files
   const [count, setCount] = useState<number | null>(null);
   const [flash, setFlash] = useState(false);
   const [running, setRunning] = useState(false);
+  // 스트림 가로/세로 비율(회전 반영). 미리보기 상자가 이 비율을 따라 화각 전체를 보여준다.
+  const [streamAspect, setStreamAspect] = useState(3 / 4);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const stop = useCallback(() => {
@@ -255,7 +285,8 @@ function Capture({ onShot, onFile }: { onShot: (s: Shot) => void; onFile: (files
       }
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: facing, width: { ideal: 1440 }, height: { ideal: 1920 } },
+          // 폰 기준: 4:3 센서 모드를 우선 요청한다. 16:9 모드는 세로로 길어 정사각 사진 영역에서 위아래가 크게 잘린다.
+          video: { facingMode: facing, aspectRatio: { ideal: 4 / 3 }, width: { ideal: 1440 }, height: { ideal: 1080 } },
           audio: false,
         });
         if (cancelled) {
@@ -263,6 +294,7 @@ function Capture({ onShot, onFile }: { onShot: (s: Shot) => void; onFile: (files
           return;
         }
         streamRef.current = stream;
+        await widenTrack(stream.getVideoTracks()[0]);
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           await videoRef.current.play().catch(() => undefined);
@@ -282,15 +314,10 @@ function Capture({ onShot, onFile }: { onShot: (s: Shot) => void; onFile: (files
   const takeOne = useCallback((): Shot | null => {
     const video = videoRef.current;
     if (!video || video.videoWidth === 0) return null;
-    // 3:4 세로 컷으로 자른다
+    // 합성 사진 영역과 같은 비율로 가운데를 자른다. 미리보기 가이드와 결과가 일치한다.
     const vw = video.videoWidth;
     const vh = video.videoHeight;
-    let w = vw;
-    let h = Math.round((vw * 4) / 3);
-    if (h > vh) {
-      h = vh;
-      w = Math.round((vh * 3) / 4);
-    }
+    const { w, h } = cropBox(vw, vh);
     const c = document.createElement("canvas");
     c.width = w;
     c.height = h;
@@ -324,8 +351,34 @@ function Capture({ onShot, onFile }: { onShot: (s: Shot) => void; onFile: (files
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="relative mx-auto mt-3 aspect-[3/4] h-[min(58dvh,calc((100vw-32px)*1.333))] max-w-[calc(100%-32px)] overflow-hidden rounded-3xl bg-black ring-1 ring-line">
-        <video ref={videoRef} playsInline muted autoPlay className="h-full w-full object-cover" style={{ transform: facing === "user" ? "scaleX(-1)" : undefined }} />
+      <div
+        className="relative mx-auto mt-3 max-w-[calc(100%-32px)] overflow-hidden rounded-3xl bg-black ring-1 ring-line"
+        style={{ aspectRatio: String(streamAspect), height: `min(58dvh, calc((100vw - 32px) / ${streamAspect}))` }}
+      >
+        <video
+          ref={videoRef}
+          playsInline
+          muted
+          autoPlay
+          className="h-full w-full object-contain"
+          style={{ transform: facing === "user" ? "scaleX(-1)" : undefined }}
+          onLoadedMetadata={(e) => {
+            const v = e.currentTarget;
+            if (v.videoWidth > 0 && v.videoHeight > 0) setStreamAspect(v.videoWidth / v.videoHeight);
+          }}
+        />
+        {/* 사진에 들어가는 범위. 바깥은 어둡게 */}
+        {permission === "granted" && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[6px] ring-1 ring-white/70 shadow-[0_0_0_200vmax_rgba(0,0,0,0.55)]"
+            style={
+              streamAspect >= PHOTO_ASPECT
+                ? { height: "100%", aspectRatio: String(PHOTO_ASPECT) }
+                : { width: "100%", aspectRatio: String(PHOTO_ASPECT) }
+            }
+          />
+        )}
         <AnimatePresence>
           {count !== null && (
             <motion.div
@@ -367,6 +420,10 @@ function Capture({ onShot, onFile }: { onShot: (s: Shot) => void; onFile: (files
           </button>
         )}
       </div>
+
+      {permission === "granted" && (
+        <p className="mt-2 text-center text-[12.5px] text-ink-3">밝은 네모 안이 사진에 들어가요. 얼굴이 크면 폰을 조금 멀리 두세요</p>
+      )}
 
       <div className="mt-auto flex flex-col gap-3 px-4 pt-5 pb-2">
         <PrimaryButton onClick={run} disabled={permission !== "granted" || running}>

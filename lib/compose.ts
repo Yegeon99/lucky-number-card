@@ -2,6 +2,20 @@
 
 import { CANVAS, type FrameDef, type Side } from "@/lib/frames";
 
+/** 합성 캔버스 안에서 내 사진이 들어가는 영역. 촬영 화면의 가이드와 크롭이 이 비율을 따른다. */
+export function photoArea() {
+  const { h } = CANVAS;
+  const topH = Math.round(h * 0.13);
+  const barH = Math.round(h * 0.048);
+  const plateH = Math.round(h * 0.085);
+  const photoY = topH;
+  const photoH = h - topH - barH - plateH;
+  return { topH, barH, plateH, photoY, photoH };
+}
+
+/** 내 사진 영역의 가로/세로 비율 (약 1.02, 거의 정사각형) */
+export const PHOTO_ASPECT = CANVAS.w / photoArea().photoH;
+
 /**
  * 한 장 합성. 전부 브라우저 캔버스에서 처리하며 어떤 요청에도 이미지를 담지 않는다.
  * 내 사진이 배경, 멤버 누끼가 한쪽에 서고, 위아래로 [CHOOM] 무드의 띠가 붙는다.
@@ -143,12 +157,8 @@ export async function composeSingle(photo: Shot | null, frame: FrameDef, side: S
   const border = gold ? Math.round(w * 0.028) : 0;
   const padX = Math.round(w * 0.06);
 
-  const topH = Math.round(h * 0.13);
-  const barH = Math.round(h * 0.048);
-  const plateH = Math.round(h * 0.085);
+  const { topH, barH, plateH, photoY, photoH } = photoArea();
   const bottomZone = barH + plateH;
-  const photoY = topH;
-  const photoH = h - topH - bottomZone;
 
   // 1. 내 사진 (배경). 없으면 자리 표시.
   if (photo) {
