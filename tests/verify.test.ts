@@ -7,7 +7,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 process.env.LNC_STORE_FILE = path.join(mkdtempSync(path.join(tmpdir(), "lnc-")), "registrations.json");
 for (const k of ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "KV_REST_API_URL", "KV_REST_API_TOKEN", "VERCEL"]) delete process.env[k];
 
-const RUKA = { id: "bm-choom-ruka-0320", token: "K7M2QX9RA4TB" };
+const RUKA = { id: "bm-choom-pharita-0107", token: "P3WZ8HN5LC2D" };
 const LUCKY = { id: "bm-choom-chiquita-0217", token: "C4NQ7YB3ZH9J" };
 
 let verifyCard: typeof import("@/lib/verify").verifyCard;

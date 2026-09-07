@@ -15,7 +15,13 @@ type Phase = "loading" | "done" | "error";
 
 const CONTACT_MAIL = "mailto:lucky@bigglz.co.kr";
 
-export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: string | null }) {
+export function CardHome({
+  cardId,
+  tagToken,
+}: {
+  cardId: string;
+  tagToken: string | null;
+}) {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>("loading");
   const [result, setResult] = useState<VerifyResult | null>(null);
@@ -69,7 +75,11 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
           member: data.card.member,
           image: data.card.image,
           accent: data.card.accent,
-          badge: data.lucky.isLuckyCard ? "lucky" : data.meaning ? "meaning" : "none",
+          badge: data.lucky.isLuckyCard
+            ? "lucky"
+            : data.meaning
+              ? "meaning"
+              : "none",
           meaningLabel: data.meaning?.label,
           registeredAt: data.registeredAt ?? new Date().toISOString(),
           tagToken: tagToken ?? undefined,
@@ -145,7 +155,12 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
       <main className="flex flex-1 flex-col px-6 pt-7 safe-bottom">
         {/* 카드 컷 */}
         <div className="flex justify-center">
-          <CardVisual image={ok?.card.image ?? null} member={ok?.card.member ?? ""} accent={ok?.card.accent ?? "#d8d8d8"} loading={status === "loading"} />
+          <CardVisual
+            image={ok?.card.image ?? null}
+            member={ok?.card.member ?? ""}
+            accent={ok?.card.accent ?? "#d8d8d8"}
+            loading={status === "loading"}
+          />
         </div>
 
         {/* 번호와 배지 자리 */}
@@ -161,7 +176,9 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
             />
           ) : status === "unverified" ? (
             <div className="text-center">
-              <p className="text-[22px] font-semibold tracking-tight text-ink">확인할 수 없는 카드입니다</p>
+              <p className="text-[22px] font-semibold tracking-tight text-ink">
+                확인할 수 없는 카드입니다
+              </p>
               <p className="mt-1.5 text-[14px] leading-relaxed text-ink-3">
                 카드를 폰 뒷면 위쪽에 다시 대거나 아래 재시도를 눌러 주세요.
               </p>
@@ -182,11 +199,14 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
               </PrimaryButton>
               {adminMode && (
                 <p className="px-1 text-center text-[12.5px] leading-relaxed text-warn">
-                  관리자 모드: 카드 확인 없이 함께 찍기를 열어요. 정품 표시와 도감 등록은 되지 않아요.
+                  관리자 모드: 카드 확인 없이 함께 찍기를 열어요. 정품 표시와
+                  도감 등록은 되지 않아요.
                 </p>
               )}
               <div className="grid grid-cols-2 gap-3">
-                <SecondaryButton onClick={() => void verify()}>재시도</SecondaryButton>
+                <SecondaryButton onClick={() => void verify()}>
+                  재시도
+                </SecondaryButton>
                 <SecondaryButton href={CONTACT_MAIL}>문의</SecondaryButton>
               </div>
             </>
@@ -199,17 +219,24 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
               <SecondaryButton href="/collection">내 도감</SecondaryButton>
               {status === "other_device" && (
                 <p className="px-1 text-center text-[12.5px] leading-relaxed text-ink-3">
-                  이 카드는 처음 등록한 기기의 도감에 담겨 있어요. 사진은 여기서도 찍을 수 있어요.
+                  이 카드는 처음 등록한 기기의 도감에 담겨 있어요. 사진은
+                  여기서도 찍을 수 있어요.
                 </p>
               )}
             </>
           )}
           <div className="mt-2 flex items-center justify-center gap-5 text-[12.5px] text-ink-3">
-            <Link href="/notice" className="underline-offset-4 active:underline">
+            <Link
+              href="/notice"
+              className="underline-offset-4 active:underline"
+            >
               럭키 넘버 안내
             </Link>
             <span className="h-3 w-px bg-line" />
-            <a href={CONTACT_MAIL} className="underline-offset-4 active:underline">
+            <a
+              href={CONTACT_MAIL}
+              className="underline-offset-4 active:underline"
+            >
               문의
             </a>
           </div>
@@ -223,6 +250,7 @@ export function CardHome({ cardId, tagToken }: { cardId: string; tagToken: strin
           <LuckySheet
             benefit={ok.lucky.benefit ?? ""}
             grade={ok.lucky.grade ?? ""}
+            reason={ok.meaning?.label ?? ""}
             deadline={ok.lucky.entryDeadline ?? ""}
             onNotice={() => showToast("기획사 응모 페이지로 연결됩니다")}
           />
@@ -260,13 +288,15 @@ function StatusBar({
   const label =
     status === "verified" ? (
       <>
-        정품 <span className="mx-1.5 opacity-50">·</span> No. <span className="tnum">{serial}</span>
+        정품 <span className="mx-1.5 opacity-50">·</span> No.{" "}
+        <span className="tnum">{serial}</span>
         <span className="opacity-60"> / </span>
         <span className="tnum">{issued}</span>
       </>
     ) : status === "other_device" ? (
       <>
-        다른 기기에서 등록된 카드입니다 <span className="mx-1.5 opacity-50">·</span> No.{" "}
+        다른 기기에서 등록된 카드입니다{" "}
+        <span className="mx-1.5 opacity-50">·</span> No.{" "}
         <span className="tnum">{serial}</span>
       </>
     ) : status === "unverified" ? (
@@ -283,7 +313,16 @@ function StatusBar({
           aria-label="뒤로"
           className="ml-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full active:bg-black/10"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </Link>
@@ -333,13 +372,28 @@ function StatusBar({
   );
 }
 
-function StatusIcon({ status }: { status: "loading" | "verified" | "other_device" | "unverified" }) {
+function StatusIcon({
+  status,
+}: {
+  status: "loading" | "verified" | "other_device" | "unverified";
+}) {
   if (status === "loading") {
-    return <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent opacity-50" />;
+    return (
+      <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent opacity-50" />
+    );
   }
   if (status === "verified") {
     return (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M12 2.5l2.4 2 3.1-.4.8 3 2.7 1.6-1.2 2.9 1.2 2.9-2.7 1.6-.8 3-3.1-.4-2.4 2-2.4-2-3.1.4-.8-3L3 14.5l1.2-2.9L3 8.7l2.7-1.6.8-3 3.1.4z" />
         <path d="M8.5 12l2.3 2.3L15.5 9.5" />
       </svg>
@@ -347,14 +401,32 @@ function StatusIcon({ status }: { status: "loading" | "verified" | "other_device
   }
   if (status === "other_device") {
     return (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <rect x="7" y="2.5" width="10" height="19" rx="2.2" />
         <path d="M11 18h2" />
       </svg>
     );
   }
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <circle cx="12" cy="12" r="9" />
       <path d="M12 7.5v5.5M12 16.5h.01" />
     </svg>
@@ -385,11 +457,21 @@ function DetailPanel({
   const rows: [string, React.ReactNode][] = [
     ["아티스트", `${artist} ${member}`],
     ["앨범", album],
-    ["순번", <span key="s" className="tnum">{Number(serial)}번째 / {issued}장</span>],
+    [
+      "순번",
+      <span key="s" className="tnum">
+        {Number(serial)}번째 / {issued}장
+      </span>,
+    ],
     ["발행일", issuedAt.replace(/-/g, ".")],
     ["제작", manufacturer],
     ["내 도감", collected ? "등록됨" : "등록 안 됨"],
-    ["누적 확인", <span key="v" className="tnum">{viewCount}회</span>],
+    [
+      "누적 확인",
+      <span key="v" className="tnum">
+        {viewCount}회
+      </span>,
+    ],
   ];
   return (
     <dl className="grid grid-cols-[72px_1fr] gap-y-2 border-t border-white/10 px-4 pb-4 pt-3 text-[13px]">
@@ -404,23 +486,51 @@ function DetailPanel({
 }
 
 /* 카드 컷: 실물 포토카드 비율 55×85 */
-function CardVisual({ image, member, accent, loading }: { image: string | null; member: string; accent: string; loading: boolean }) {
+function CardVisual({
+  image,
+  member,
+  accent,
+  loading,
+}: {
+  image: string | null;
+  member: string;
+  accent: string;
+  loading: boolean;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
       className="card-gloss relative aspect-[55/85] w-[64%] max-w-[250px] overflow-hidden rounded-card shadow-card"
-      style={{ background: loading ? "#eee" : `linear-gradient(160deg, ${accent}22, ${accent}66)` }}
+      style={{
+        background: loading
+          ? "#eee"
+          : `linear-gradient(160deg, ${accent}22, ${accent}66)`,
+      }}
     >
       {image ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={image} alt={`${member} 카드 컷`} className="h-full w-full object-cover object-top" draggable={false} />
+        <img
+          src={image}
+          alt={`${member} 카드 컷`}
+          className="h-full w-full object-cover object-top"
+          draggable={false}
+        />
       ) : (
         <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-ink-3">
           {!loading && (
             <>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <rect x="3" y="4" width="18" height="16" rx="2.5" />
                 <circle cx="9" cy="10" r="1.8" />
                 <path d="M21 16l-5-5-8 8" />
@@ -453,7 +563,9 @@ function SerialWithBadges({
   // 럭키 연출 조건: 정품 확인 + 이 기기가 첫 등록자 + 럭키 카드.
   // 세 조건이 모두 맞을 때만 (lucky.reveal) 지연 연출을 한다.
   // 럭키가 아닌 카드에는 배지도 문구도 어떤 것도 표시하지 않는다.
-  const [goldOn, setGoldOn] = useState(lucky.isLuckyCard && !lucky.reveal && lucky.unlocked);
+  const [goldOn, setGoldOn] = useState(
+    lucky.isLuckyCard && !lucky.reveal && lucky.unlocked,
+  );
   const [badgeOn, setBadgeOn] = useState(lucky.isLuckyCard && !lucky.reveal);
 
   useEffect(() => {
@@ -479,7 +591,9 @@ function SerialWithBadges({
         >
           {serial}
         </motion.span>
-        <span className="tnum text-[15px] font-medium text-ink-3">/ {issued}</span>
+        <span className="tnum text-[15px] font-medium text-ink-3">
+          / {issued}
+        </span>
       </div>
 
       {/* 배지 줄: 금색 LUCKY 가 앞, 은색 의미 번호가 뒤. 럭키가 아니면 금색 자리는 비어 있다. */}
@@ -502,7 +616,7 @@ function SerialWithBadges({
             </motion.button>
           )}
         </AnimatePresence>
-        {meaning && (
+        {meaning && !lucky.isLuckyCard && (
           <motion.span
             layout
             initial={{ opacity: 0 }}
@@ -521,20 +635,31 @@ function SerialWithBadges({
 function LuckySheet({
   benefit,
   grade,
+  reason,
   deadline,
   onNotice,
 }: {
   benefit: string;
   grade: string;
+  /** 럭키인 이유. 예: "루카 생일 번호" */
+  reason: string;
   deadline: string;
   onNotice: () => void;
 }) {
   return (
     <div>
       <span className="badge-gold inline-flex h-7 items-center gap-1 rounded-full px-2.5 text-[10.5px] font-extrabold tracking-[0.12em]">
-        <StarIcon /> LUCKY NUMBER {grade && <span className="ml-1 opacity-80">{grade}등급</span>}
+        <StarIcon /> LUCKY NUMBER{" "}
+        {grade && <span className="ml-1 opacity-80">{grade}등급</span>}
       </span>
-      <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight">이 번호에는 플러스 혜택이 있어요</h2>
+      <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight">
+        이 번호에는 플러스 혜택이 있어요
+      </h2>
+      {reason && (
+        <p className="mt-1.5 text-[14px] text-ink-2">
+          {reason}예요. 이 번호를 처음 등록한 분께 드려요.
+        </p>
+      )}
       <dl className="mt-5 flex flex-col gap-4 text-[14.5px]">
         <div>
           <dt className="text-[12.5px] text-ink-3">혜택 내용</dt>
@@ -542,17 +667,23 @@ function LuckySheet({
         </div>
         <div>
           <dt className="text-[12.5px] text-ink-3">수령 방법</dt>
-          <dd className="mt-0.5 font-medium">응모하기를 눌러 기획사 응모 페이지에서 수령 정보를 입력하면 안내 문자가 발송됩니다.</dd>
+          <dd className="mt-0.5 font-medium">
+            응모하기를 눌러 기획사 응모 페이지에서 수령 정보를 입력하면 안내
+            문자가 발송됩니다.
+          </dd>
         </div>
         <div>
           <dt className="text-[12.5px] text-ink-3">응모 마감</dt>
-          <dd className="mt-0.5 font-medium tnum">{deadline.replace(/-/g, ".")}</dd>
+          <dd className="mt-0.5 font-medium tnum">
+            {deadline.replace(/-/g, ".")}
+          </dd>
         </div>
       </dl>
       <div className="mt-6">
         <PrimaryButton onClick={onNotice}>응모하기</PrimaryButton>
         <p className="mt-3 text-center text-[12px] leading-relaxed text-ink-3">
-          혜택 운영과 배송은 기획사가 맡습니다. 이 화면은 카드가 처음 등록된 기기에서만 열립니다.
+          혜택 운영과 배송은 기획사가 맡습니다. 이 화면은 카드가 처음 등록된
+          기기에서만 열립니다.
         </p>
       </div>
     </div>
@@ -561,7 +692,13 @@ function LuckySheet({
 
 function StarIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+    >
       <path d="M12 2l2.6 6.4 6.9.5-5.3 4.5 1.7 6.7L12 16.5 6.1 20.1l1.7-6.7-5.3-4.5 6.9-.5z" />
     </svg>
   );
@@ -569,7 +706,17 @@ function StarIcon() {
 
 function CameraIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
       <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
       <circle cx="12" cy="13" r="3.5" />
     </svg>

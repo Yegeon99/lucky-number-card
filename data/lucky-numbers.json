@@ -1,5 +1,5 @@
 {
-  "_comment": "럭키 번호 목록. 의미 번호(생일)와 겹칠 수 있다. 데모 기본값은 치키타 0217 한 장.",
+  "_comment": "럭키 번호 목록. 각 멤버 카드는 본인 생일(MMDD) 번호 1장, 단체 카드는 앨범 발매일 번호 1장. 총 7장.",
   "publishedAt": "2026-10-01",
   "revealAt": "2027-01-31",
   "entryDeadline": "2027-01-15",
@@ -7,14 +7,44 @@
   "grades": [
     {
       "grade": "S",
-      "count": 1,
-      "benefit": "멤버 친필 사인 폴라로이드 1장과 팬미팅 초대"
+      "count": 7,
+      "benefit": "BABYMONSTER 공식 굿즈 선물 (기획사 제공)"
     }
   ],
   "numbers": [
     {
+      "designId": "ruka",
+      "serial": "0320",
+      "grade": "S"
+    },
+    {
+      "designId": "pharita",
+      "serial": "0826",
+      "grade": "S"
+    },
+    {
+      "designId": "asa",
+      "serial": "0417",
+      "grade": "S"
+    },
+    {
+      "designId": "ahyeon",
+      "serial": "0411",
+      "grade": "S"
+    },
+    {
+      "designId": "rora",
+      "serial": "0814",
+      "grade": "S"
+    },
+    {
       "designId": "chiquita",
       "serial": "0217",
+      "grade": "S"
+    },
+    {
+      "designId": "group",
+      "serial": "0504",
       "grade": "S"
     }
   ]
