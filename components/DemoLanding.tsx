@@ -227,7 +227,7 @@ function PhotoCard({
         whileTap={{ scale: 0.96 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
         className={`card-gloss relative aspect-[55/85] w-full overflow-hidden rounded-[14px] bg-paper-3 shadow-card transition-[opacity,filter] duration-500 ${
-          owned ? "" : "opacity-45 grayscale-[35%] blur-[1.2px]"
+          owned ? "" : "opacity-30 grayscale-[80%] blur-[7px] brightness-[0.55]"
         }`}
       >
         {/* 카드 컷: 앨범 공식 화보 */}
