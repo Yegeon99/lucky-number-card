@@ -502,7 +502,7 @@ function CardVisual({
       initial={{ opacity: 0, y: 14, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
-      className="card-gloss relative aspect-[55/85] w-[64%] max-w-[250px] overflow-hidden rounded-card shadow-card"
+      className="card-gloss relative aspect-[55/85] w-[84%] max-w-[340px] overflow-hidden rounded-card shadow-card"
       style={{
         background: loading
           ? "#eee"
