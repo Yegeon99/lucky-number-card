@@ -98,7 +98,9 @@ export function DemoLanding({
             </p>
           </div>
           <p className="mt-3 max-w-[320px] break-keep text-[14px] leading-relaxed text-ink">
-            포토카드의 멤버와 함께 프레임 사진을 찍고 행운의 번호를 노려보세요!
+            포토카드의 멤버와 함께 프레임 사진을 찍고
+            <br />
+            행운의 번호를 노려보세요!
           </p>
         </div>
       </header>
