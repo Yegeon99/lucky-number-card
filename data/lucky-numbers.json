@@ -4,6 +4,12 @@
   "revealAt": "2027-01-31",
   "entryDeadline": "2027-01-15",
   "contact": "lucky@bigglz.co.kr",
+  "setEvent": {
+    "gift": "BABYMONSTER 공식 굿즈 소정의 사은품 (기획사 제공)",
+    "winners": 10,
+    "entryDeadline": "2027-01-15",
+    "announceAt": "2027-01-31"
+  },
   "grades": [
     {
       "grade": "S",

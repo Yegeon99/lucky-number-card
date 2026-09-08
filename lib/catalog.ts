@@ -54,12 +54,21 @@ export type CardRecord = {
 export type LuckyGrade = { grade: string; count: number; benefit: string };
 export type LuckyNumber = { designId: string; serial: string; grade: string };
 
+/** 세트 완성 이벤트: 세트 7장(멤버 6 + 단체 1)을 같은 기기 도감에 전부 등록한 사람이 응모. 응모자 중 winners 명을 기획사가 무작위 선정. */
+export type SetEvent = {
+  gift: string;
+  winners: number;
+  entryDeadline: string;
+  announceAt: string;
+};
+
 export type LuckyConfig = {
   publishedAt: string;
   revealAt: string;
   entryDeadline: string;
   contact: string;
   grades: LuckyGrade[];
+  setEvent: SetEvent;
   numbers: LuckyNumber[];
 };
 

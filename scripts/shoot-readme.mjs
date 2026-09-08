@@ -18,6 +18,12 @@ const CARDS = {
   plain: "/c/bm-choom-pharita-0107?t=P3WZ8HN5LC2D",
   lucky: "/c/bm-choom-chiquita-0217?t=C4NQ7YB3ZH9J",
   group: "/c/bm-choom-group-0504?t=R5XC3BQ9WN7E",
+  rest: [
+    "/c/bm-choom-asa-0733?t=A9F4JD7VXQ1S",
+    "/c/bm-choom-ahyeon-0258?t=H2RT6MZ8KP5Y",
+    "/c/bm-choom-rora-0619?t=L8DK2VF6TM4G",
+    "/c/bm-choom-ruka-0320?t=K7M2QX9RA4TB",
+  ],
   unknown: "/c/bm-choom-unknown-9999?t=ZZZZ0000AAAA",
 };
 
@@ -175,6 +181,21 @@ try {
   // 17. 템플릿 검수
   await page.goto(base + "/templates", { waitUntil: "networkidle" });
   await shot(page, "17-templates", { full: true, wait: 2500 });
+
+  // 18. 나머지 4장도 등록해 세트 7장 완성 → 축하 연출 + 세트 완성 이벤트 안내
+  for (const route of CARDS.rest) {
+    await page.goto(base + route, { waitUntil: "networkidle" });
+    await page.getByText("정품", { exact: false }).first().waitFor({ timeout: 15_000 });
+    await page.waitForTimeout(1500);
+  }
+  await page.goto(base + "/collection", { waitUntil: "networkidle" });
+  await page.getByText("세트를 모두 모았어요").waitFor({ timeout: 8000 });
+  await shot(page, "18-collection-complete", { wait: 1200 });
+
+  // 19. 이벤트 안내 시트
+  await page.getByRole("button", { name: "이벤트 안내 보기" }).click();
+  await page.getByText("7장을 모두 모은 분께 드려요").waitFor({ timeout: 4000 });
+  await shot(page, "19-set-event", { wait: 1200 });
 
   await a.close();
   console.log("완료");

@@ -1,7 +1,7 @@
 /**
  * 한 장 프레임 정의. [춤 (CHOOM)] 무드.
  * 내 사진 한 장이 배경이 되고, 멤버 누끼가 왼쪽 또는 오른쪽에 서 있는 것처럼 얹힌다.
- * 종류: 카드별 기본 프레임(머그샷 벽), 금색 테두리(럭키), 단체 프레임(세트 완성).
+ * 종류: 카드별 기본 프레임(머그샷 벽), 금색 테두리(럭키), 단체 프레임(단체 카드의 기본 프레임). 세트 완성으로 열리는 프레임은 없다.
  */
 
 export type FrameKind = "card" | "lucky" | "group";
@@ -74,7 +74,7 @@ export function luckyFrame(artist: string, design?: DesignSeed): FrameDef {
   };
 }
 
-/** 세트 완성 시 열리는 단체 프레임 */
+/** 단체 카드의 기본 프레임 */
 export function groupFrame(artist: string, group?: DesignSeed): FrameDef {
   return {
     id: "frame-group",
@@ -96,17 +96,14 @@ export type FrameContext = {
   /** 지금 열려 있는 카드의 디자인 */
   currentDesignId: string | null;
   luckyUnlocked: boolean;
-  groupUnlocked: boolean;
 };
 
 /** 이 기기에서 지금 고를 수 있는 프레임 목록 */
 export function availableFrames(ctx: FrameContext): FrameDef[] {
   const list: FrameDef[] = [];
   const current = ctx.designs.find((d) => d.id === ctx.currentDesignId);
-  const group = ctx.designs.find((d) => d.id === "group");
-  if (current) list.push(cardFrame(current, ctx.artist));
+  if (current) list.push(current.id === "group" ? groupFrame(ctx.artist, current) : cardFrame(current, ctx.artist));
   if (ctx.luckyUnlocked) list.push(luckyFrame(ctx.artist, current));
-  if (ctx.groupUnlocked) list.push(groupFrame(ctx.artist, group));
   if (list.length === 0 && ctx.designs[0]) list.push(cardFrame(ctx.designs[0], ctx.artist));
   return list;
 }

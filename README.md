@@ -1,5 +1,7 @@
 # 럭키 넘버 카드 · 데모 v0.1
 
+> 이 데모는 BABYMONSTER 의 3rd Mini Album [CHOOM](춤)을 샘플로 제작했습니다. 이미지는 앨범 공식 공개 화보이며 데모 시연용입니다. 실제 상품 사용은 기획사 승인이 필요합니다.
+
 내 포토카드 멤버와 함께 찍는 프레임. 정품은 기본, 럭키 넘버는 덤.
 
 프로덕션: https://lucky-number-card.vercel.app
@@ -50,10 +52,10 @@
 
 이 기기에서 등록한 카드 목록. 브라우저 저장소에만 저장되고 계정은 없다. 미보유 멤버는 흐리게, 럭키 카드는 LUCKY 표시. 세트 완성률이 올라가고, 멤버 6장 + 단체 카드 1장 = 7장을 전부 이 기기 도감에 등록하면 **세트 완성 이벤트**에 응모할 수 있다. 응모자 가운데 일부에게 기획사가 소정의 사은품을 지급한다(선정 방식과 수량은 안내 페이지에 표기). 프레임 해금은 없다.
 
-> 구현 상태: 이벤트 안내 시트와 안내 페이지 항목은 아직 코드에 반영되지 않았다. 현재 데모는 7장 완성 시 예전 기획(단체 프레임 해금) 연출이 남아 있다.
-
 <table><tr>
 <td align="center"><img src="docs/screenshots/10-collection.jpg" width="260"><br><sub>3 / 7장 등록 상태</sub></td>
+<td align="center"><img src="docs/screenshots/18-collection-complete.jpg" width="260"><br><sub>7 / 7장 완성: 축하 연출 + 이벤트 안내</sub></td>
+<td align="center"><img src="docs/screenshots/19-set-event.jpg" width="260"><br><sub>세트 완성 이벤트 시트 (응모)</sub></td>
 </tr></table>
 
 ### 6. 정품 상태 3종
@@ -149,7 +151,7 @@ npm run typecheck     # 타입 검사
 npm run lint          # ESLint
 npm test              # 단위 테스트 (검증 3상태, 토큰 대조, 확인 횟수 규칙, 해시)
 npm run test:e2e      # 폰 화면 스모크 테스트 21항목 (배포용 빌드 + 3100 포트, 등록 상태는 임시 파일)
-node scripts/shoot-readme.mjs   # README 화면 캡처 17장 재생성 (docs/screenshots, 같은 방식으로 격리)
+node scripts/shoot-readme.mjs   # README 화면 캡처 19장 재생성 (docs/screenshots, 같은 방식으로 격리)
 npm run check:words   # 금지 단어, 줄표 전수 검색
 npm run qr            # 데모 QR 3장 생성
 ```

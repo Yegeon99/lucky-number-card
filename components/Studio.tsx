@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { hasLuckyCard, isSetComplete, useCollection } from "@/lib/collection";
+import { hasLuckyCard, useCollection } from "@/lib/collection";
 import { availableFrames, randomSide, type FrameDef, type Side } from "@/lib/frames";
 import { PHOTO_ASPECT, canvasToBlob, composeSingle, todayText, toWallpaper, type Shot } from "@/lib/compose";
 import { loadSessionCard } from "@/lib/session-card";
@@ -86,7 +86,6 @@ export function Studio({ set }: { set: PublicSet }) {
       artist: set.artist,
       currentDesignId: current?.designId ?? null,
       luckyUnlocked: luckyFromSession || hasLuckyCard(items),
-      groupUnlocked: isSetComplete(items, set.id, set.designs.map((d) => d.id)),
     });
   }, [set, current, luckyFromSession, items]);
 
@@ -517,7 +516,7 @@ function Compose({
                 <span>
                   <span className="block text-[13px] font-semibold">{f.name}</span>
                   <span className={`block text-[11px] ${active ? "text-paper/70" : "text-ink-3"}`}>
-                    {f.kind === "card" ? "카드 기본" : f.kind === "lucky" ? "럭키 넘버 해금" : "세트 완성 해금"}
+                    {f.kind === "lucky" ? "럭키 넘버 해금" : "카드 기본"}
                   </span>
                 </span>
               </button>

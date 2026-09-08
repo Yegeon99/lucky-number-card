@@ -7,7 +7,7 @@ import { isSetComplete, useCollection } from "@/lib/collection";
 import { BottomNav } from "./BottomNav";
 import { cardHref } from "@/lib/card-link";
 import type { PublicSet } from "@/lib/public-set";
-import { BottomSheet, PrimaryButton, SecondaryButton, TopBar } from "./ui";
+import { BottomSheet, PrimaryButton, SecondaryButton, Toast, TopBar } from "./ui";
 
 export function Collection({ set }: { set: PublicSet }) {
   const items = useCollection((s) => s.items);
@@ -15,6 +15,8 @@ export function Collection({ set }: { set: PublicSet }) {
   const hydrated = useCollection((s) => s.hydrated);
   const clear = useCollection((s) => s.clear);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [eventOpen, setEventOpen] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
   const [view, setView] = useState<"member" | "serial">("member");
 
   useEffect(() => {
@@ -165,27 +167,30 @@ export function Collection({ set }: { set: PublicSet }) {
                     />
                   )}
                 </AnimatePresence>
-                <p className="text-[14px] font-semibold">
-                  세트를 모두 모았어요. 단체 프레임이 열렸어요
+                <p className="text-[14px] font-semibold">세트를 모두 모았어요</p>
+                <p className="mt-0.5 text-[12.5px] text-paper/70">
+                  7장을 모두 모은 분께 드리는 이벤트가 있어요
                 </p>
-                <Link
-                  href="/studio"
-                  className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium text-paper/80 underline-offset-4 active:underline"
+                <button
+                  type="button"
+                  onClick={() => setEventOpen(true)}
+                  className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium text-paper/85 underline-offset-4 active:underline"
                 >
-                  함께 찍기로 가기
+                  이벤트 안내 보기
                   <svg
                     width="14"
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2.2"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    aria-hidden
                   >
                     <path d="M9 6l6 6-6 6" />
                   </svg>
-                </Link>
+                </button>
               </motion.div>
             )}
           </div>
@@ -357,6 +362,72 @@ export function Collection({ set }: { set: PublicSet }) {
           </PrimaryButton>
         </div>
       </BottomSheet>
+
+      <BottomSheet open={eventOpen} onClose={() => setEventOpen(false)}>
+        <SetEventSheet
+          event={set.setEvent}
+          onEnter={() => {
+            setToast("기획사 응모 페이지로 연결됩니다");
+            setTimeout(() => setToast(null), 2200);
+          }}
+        />
+      </BottomSheet>
+      <Toast message={toast} />
+    </div>
+  );
+}
+
+/** 세트 완성 이벤트 안내. 7장(멤버 6 + 단체 1)을 같은 기기 도감에 전부 등록했을 때만 열린다. */
+function SetEventSheet({
+  event,
+  onEnter,
+}: {
+  event: PublicSet["setEvent"];
+  onEnter: () => void;
+}) {
+  const fmt = (d: string) => d.replace(/-/g, ".");
+  return (
+    <div>
+      <span className="badge-gold inline-flex h-7 items-center rounded-full px-2.5 text-[10.5px] font-extrabold tracking-[0.12em]">
+        SET COMPLETE
+      </span>
+      <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight">
+        7장을 모두 모은 분께 드려요
+      </h2>
+      <p className="mt-1.5 text-[14px] text-ink-2">
+        응모한 분 중 {event.winners}명에게 소정의 사은품을 드려요. 응모는
+        카드가 처음 등록된 이 기기에서만 할 수 있어요.
+      </p>
+      <dl className="mt-5 flex flex-col gap-4 text-[14.5px]">
+        <div>
+          <dt className="text-[12.5px] text-ink-3">사은품</dt>
+          <dd className="mt-0.5 font-medium">{event.gift}</dd>
+        </div>
+        <div>
+          <dt className="text-[12.5px] text-ink-3">응모 방법</dt>
+          <dd className="mt-0.5 font-medium">
+            응모하기를 눌러 기획사 응모 페이지에서 수령 정보를 입력하면 안내
+            문자가 발송됩니다.
+          </dd>
+        </div>
+        <div>
+          <dt className="text-[12.5px] text-ink-3">응모 마감</dt>
+          <dd className="mt-0.5 font-medium tnum">{fmt(event.entryDeadline)}</dd>
+        </div>
+        <div>
+          <dt className="text-[12.5px] text-ink-3">발표</dt>
+          <dd className="mt-0.5 font-medium tnum">
+            {fmt(event.announceAt)} 응모 시 입력한 연락처로 개별 안내
+          </dd>
+        </div>
+      </dl>
+      <div className="mt-6">
+        <PrimaryButton onClick={onEnter}>응모하기</PrimaryButton>
+        <p className="mt-3 text-center text-[12px] leading-relaxed text-ink-3">
+          선정과 지급은 기획사가 맡습니다. 자세한 기준은 럭키 넘버 안내
+          페이지에 적혀 있습니다.
+        </p>
+      </div>
     </div>
   );
 }

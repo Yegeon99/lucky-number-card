@@ -4,12 +4,13 @@ import { luckyListHash } from "@/lib/lucky-hash";
 
 export const dynamic = "force-dynamic";
 
-/** 럭키 넘버 안내 (법적 고지). 사실만 나열한다. */
+/** 럭키 넘버 안내 (법적 고지). 사실만 나열한다. 세트 완성 이벤트의 수량과 선정 방식도 여기서만 적는다. */
 export default function NoticePage() {
   const cardSet = getCardSet();
   const luckyConfig = getLuckyConfig();
   const totalIssued = cardSet.issuedPerDesign * cardSet.designs.length;
   const luckyTotal = luckyConfig.numbers.length;
+  const setEvent = luckyConfig.setEvent;
   const hash = luckyListHash();
   const ratio = ((luckyTotal / totalIssued) * 100).toFixed(3);
   const fmt = (d: string) => d.replace(/-/g, ".");
@@ -56,6 +57,18 @@ export default function NoticePage() {
           </p>
           <Row k="해시 공개일" v={fmt(luckyConfig.publishedAt)} />
           <Row k="원본 공개 예정일" v={fmt(luckyConfig.revealAt)} />
+        </Section>
+
+        <Section title="세트 완성 이벤트">
+          <p className="text-[13.5px]">
+            세트 7장(멤버 카드 6장과 단체 카드 1장)을 모두 같은 기기에서 처음 등록해 내 도감에 담은 사람이 응모할 수 있습니다. 응모자 가운데 아래 수량만큼 기획사가 무작위로 선정해 사은품을 지급합니다.
+          </p>
+          <Row k="응모 조건" v="세트 7장 모두 이 기기가 첫 등록자" />
+          <Row k="사은품" v={setEvent.gift} />
+          <Row k="지급 수량" v={<span className="tnum">{setEvent.winners}명</span>} />
+          <Row k="선정 방식" v="응모자 중 무작위 선정 (기획사 주관)" />
+          <Row k="응모 마감" v={fmt(setEvent.entryDeadline)} />
+          <Row k="발표" v={`${fmt(setEvent.announceAt)} 응모 시 입력한 연락처로 개별 안내`} />
         </Section>
 
         <Section title="응모와 문의">
