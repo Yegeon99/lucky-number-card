@@ -13,3 +13,6 @@ outputs/shots
 .agents/
 .claude/skills/
 skills-lock.json
+
+# Next.js 가 dev/build 때마다 다시 쓰는 자동 생성 파일 (공식 문서: 추적하지 말 것)
+next-env.d.ts
