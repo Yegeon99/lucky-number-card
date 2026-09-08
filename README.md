@@ -2,6 +2,85 @@
 
 내 포토카드 멤버와 함께 찍는 프레임. 정품은 기본, 럭키 넘버는 덤.
 
+프로덕션: https://lucky-number-card.vercel.app
+
+## 화면 흐름 (데모 시나리오)
+
+실물 포토카드 안의 NFC 를 폰에 대면 앱 설치·로그인 없이 브라우저가 카드 전용 주소로 열린다. 아래는 폰(390×844) 기준 실제 화면이다. 캡처는 `node scripts/shoot-readme.mjs` 로 다시 만들 수 있다(별도 포트 3100, 임시 저장소를 써서 실제 등록 상태는 건드리지 않음).
+
+### 1. 홈 (데모 입구)
+
+데모에서는 카드를 대는 대신 홈의 카드를 누른다. 관리자 모드가 꺼져 있으면 내 도감에 있는 멤버만 선명하고 나머지는 흐리다. 관리자 모드를 켜면 모든 카드에 멤버·번호 이름판이 뜨고, 럭키 카드에는 금색 점이 붙는다(시연자용 힌트). 하단 탭은 홈 · 내 도감 · 관리.
+
+<table><tr>
+<td align="center"><img src="docs/screenshots/01-home.jpg" width="260"><br><sub>관리자 모드 꺼짐 (도감 비어 있음)</sub></td>
+<td align="center"><img src="docs/screenshots/02-home-admin-mode.jpg" width="260"><br><sub>관리자 모드 켬 (이름판, 럭키 힌트 점)</sub></td>
+<td align="center"><img src="docs/screenshots/11-home-after-collect.jpg" width="260"><br><sub>카드 3장 등록 후 (보유 멤버만 선명)</sub></td>
+</tr></table>
+
+### 2. 카드 홈: 정품 확인과 첫 등록
+
+카드를 태그하면 서버가 토큰을 대조하고 상단 띠에 정품 상태와 번호를 띄운다. 첫 태그한 기기가 그 카드의 등록자가 되고 카드는 내 도감에 자동으로 담긴다. 띠를 누르면 아티스트·앨범·순번·발행일·제작사·누적 확인 횟수가 펼쳐진다.
+
+<table><tr>
+<td align="center"><img src="docs/screenshots/03-card-verified.jpg" width="260"><br><sub>정품 · No. 0107 / 1000</sub></td>
+<td align="center"><img src="docs/screenshots/04-card-verified-detail.jpg" width="260"><br><sub>정품 띠 펼침 (상세 정보)</sub></td>
+</tr></table>
+
+### 3. 럭키 넘버
+
+정품 확인 + 이 기기가 첫 등록자 + 럭키 목록에 있는 번호, 세 조건이 모두 맞을 때만 기본 화면이 뜬 뒤 약 1초 후 금색 LUCKY NUMBER 배지가 미끄러져 들어온다. 배지를 누르면 혜택 안내와 응모 버튼이 나온다(데모는 안내까지). 럭키가 아닌 카드에는 어떤 결과 문구도 없다.
+
+<table><tr>
+<td align="center"><img src="docs/screenshots/05-card-lucky.jpg" width="260"><br><sub>첫 등록 + 럭키 카드 (치키타 생일 0217)</sub></td>
+<td align="center"><img src="docs/screenshots/06-lucky-benefit.jpg" width="260"><br><sub>배지 탭: 혜택 안내</sub></td>
+</tr></table>
+
+### 4. 함께 찍기
+
+내 사진 한 장 옆에 카드 멤버가 선다. 셀카를 찍거나 갤러리에서 고르면 프레임에 합성되고, 멤버 위치(왼쪽·오른쪽)와 프레임을 고른 뒤 저장·공유한다. 럭키 카드는 금색 프레임 1종이 추가로 열린다. 사진은 서버로 보내지 않고 전부 폰 안에서 합성된다.
+
+<table><tr>
+<td align="center"><img src="docs/screenshots/07-studio-intro.jpg" width="260"><br><sub>시작 화면</sub></td>
+<td align="center"><img src="docs/screenshots/08-studio-compose.jpg" width="260"><br><sub>사진 넣은 뒤 위치·프레임 선택</sub></td>
+<td align="center"><img src="docs/screenshots/09-studio-result.jpg" width="260"><br><sub>완성: 저장·공유, 배경화면 비율</sub></td>
+</tr></table>
+
+### 5. 내 도감
+
+이 기기에서 등록한 카드 목록. 브라우저 저장소에만 저장되고 계정은 없다. 미보유 멤버는 흐리게, 럭키 카드는 LUCKY 표시. 세트 완성률이 올라가고 7장을 다 모으면 단체 프레임이 열린다.
+
+<table><tr>
+<td align="center"><img src="docs/screenshots/10-collection.jpg" width="260"><br><sub>3 / 7장 등록 상태</sub></td>
+</tr></table>
+
+### 6. 정품 상태 3종
+
+| 상태 | 띠 색 | 동작 |
+| --- | --- | --- |
+| 정품 확인 | 초록 | 함께 찍기·도감·럭키 확인 모두 열림 |
+| 다른 기기 등록 | 노랑 | 정품 사실은 표시. 함께 찍기는 열리고 도감 등록·럭키 확인은 잠김 |
+| 확인 불가 | 빨강 | 함께 찍기 잠김. 재시도·문의 버튼. "가품"이라는 단어는 쓰지 않음 |
+
+<table><tr>
+<td align="center"><img src="docs/screenshots/14-card-other-device.jpg" width="260"><br><sub>다른 기기에서 이미 등록된 카드</sub></td>
+<td align="center"><img src="docs/screenshots/12-card-unknown.jpg" width="260"><br><sub>확인할 수 없는 카드 (토큰 불일치·미발행)</sub></td>
+</tr></table>
+
+### 7. 럭키 넘버 안내와 관리
+
+안내 페이지는 총 발행 수량, 럭키 수량과 비율, 사전 공개한 럭키 목록 해시(SHA-256), 응모 마감을 그대로 적는다. 관리 화면은 비밀번호로 들어가며 카드 번호 수정, 등록 상태·확인 횟수 확인, 데모 초기화를 한다. 템플릿 화면은 멤버별 프레임을 검수용으로 나열한다.
+
+<table><tr>
+<td align="center"><img src="docs/screenshots/13-notice.jpg" width="260"><br><sub>럭키 넘버 안내 (법적 고지)</sub></td>
+<td align="center"><img src="docs/screenshots/15-admin-login.jpg" width="260"><br><sub>관리 로그인</sub></td>
+<td align="center"><img src="docs/screenshots/16-admin-list.jpg" width="260"><br><sub>관리: 번호 수정, 등록 상태</sub></td>
+</tr></table>
+
+<table><tr>
+<td align="center"><img src="docs/screenshots/17-templates.jpg" width="260"><br><sub>샘플 템플릿 검수</sub></td>
+</tr></table>
+
 ## 실행
 
 ```bash
@@ -19,7 +98,7 @@ npm run dev:https  # https://localhost:3000 (폰에서 카메라를 쓰려면 �
 
 | 용도 | 주소 |
 | --- | --- |
-| 정품 일반 | `/c/bm-choom-ruka-0320?t=K7M2QX9RA4TB` |
+| 정품 일반 | `/c/bm-choom-pharita-0107?t=P3WZ8HN5LC2D` |
 | 럭키 | `/c/bm-choom-chiquita-0217?t=C4NQ7YB3ZH9J` |
 | 단체 카드 | `/c/bm-choom-group-0504?t=R5XC3BQ9WN7E` |
 | 확인 불가 시연 | `/c/bm-choom-unknown-9999?t=ZZZZ0000AAAA` |
@@ -68,6 +147,7 @@ npm run typecheck     # 타입 검사
 npm run lint          # ESLint
 npm test              # 단위 테스트 (검증 3상태, 토큰 대조, 확인 횟수 규칙, 해시)
 npm run test:e2e      # 폰 화면 스모크 테스트 21항목 (배포용 빌드 + 3100 포트, 등록 상태는 임시 파일)
+node scripts/shoot-readme.mjs   # README 화면 캡처 17장 재생성 (docs/screenshots, 같은 방식으로 격리)
 npm run check:words   # 금지 단어, 줄표 전수 검색
 npm run qr            # 데모 QR 3장 생성
 ```
