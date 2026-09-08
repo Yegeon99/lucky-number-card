@@ -275,18 +275,21 @@ export function Collection({ set }: { set: PublicSet }) {
                 const first = owned[0];
                 return (
                   <div key={d.id} className="flex flex-col items-center">
+                    {/* 미보유면 홈 격자와 같은 방식: 카드 틀은 선명하게, 안쪽 그림만 흐린다 */}
                     <div
                       className={`card-gloss relative aspect-[55/85] w-full overflow-hidden rounded-[10px] ${
                         first
                           ? "shadow-soft"
-                          : "opacity-45 grayscale-[35%] blur-[1.2px]"
+                          : "bg-[#2a2826] ring-1 ring-white/10"
                       }`}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={first?.image ?? d.image}
                         alt={`${d.member} 카드`}
-                        className="h-full w-full object-cover object-top"
+                        className={`h-full w-full object-cover object-top ${
+                          first ? "" : "scale-110 opacity-40 grayscale-[80%] blur-[9px] brightness-[0.6]"
+                        }`}
                         draggable={false}
                       />
                       {first?.badge === "lucky" && (
