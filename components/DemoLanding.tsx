@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Switch } from "./Switch";
+import { BottomNav } from "./BottomNav";
 import { isAdminMode, setAdminMode } from "@/lib/admin-mode";
 import { useCollection } from "@/lib/collection";
 
@@ -190,20 +191,7 @@ export function DemoLanding({
         </p>
       </main>
 
-      {/* 하단 고정 바 */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[430px] border-t-2 border-accent bg-black/88 backdrop-blur-md">
-        <div className="flex items-stretch px-3 pb-[calc(env(safe-area-inset-bottom,0px)+8px)] pt-2">
-          <BarLink href="/collection" label="내 도감" icon={<BookIcon />} />
-          <BarLink href="/notice" label="럭키 안내" icon={<InfoIcon />} />
-          <Link
-            href="/admin"
-            className="flex w-[64px] flex-col items-center justify-center gap-1 rounded-xl py-1.5 text-[10px] text-ink-3 active:bg-paper-2"
-          >
-            <GearIcon />
-            관리
-          </Link>
-        </div>
-      </nav>
+      <BottomNav />
     </div>
   );
 }
@@ -279,82 +267,5 @@ function PhotoCard({
         )}
       </motion.div>
     </Link>
-  );
-}
-
-function BarLink({
-  href,
-  label,
-  icon,
-}: {
-  href: string;
-  label: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className="flex flex-1 flex-col items-center justify-center gap-1 rounded-xl py-1.5 text-[11.5px] font-medium text-ink-2 active:bg-paper-2"
-    >
-      {icon}
-      {label}
-    </Link>
-  );
-}
-
-function BookIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z" />
-      <path d="M4 20.5V5.5M8 7h8M8 10.5h6" />
-    </svg>
-  );
-}
-
-function InfoIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 11v5M12 8h.01" />
-    </svg>
-  );
-}
-
-function GearIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
-    </svg>
   );
 }

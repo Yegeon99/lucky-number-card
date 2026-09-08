@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { BottomSheet, PrimaryButton, SecondaryButton, Toast, TopBar } from "./ui";
+import { BottomNav } from "./BottomNav";
 
 type Row = {
   id: string;
@@ -134,7 +135,7 @@ export function Admin() {
     return (
       <div className="phone flex flex-col">
         <TopBar title="관리" back="/" />
-        <main className="flex flex-1 flex-col px-6 pt-10">
+        <main className="flex flex-1 flex-col px-6 pb-[112px] pt-10">
           <h2 className="text-[22px] font-bold tracking-tight">관리자 확인</h2>
           <p className="mt-2 text-[14px] text-ink-2">카드 발행 목록과 등록 상태를 확인하는 화면입니다.</p>
           <input
@@ -151,6 +152,7 @@ export function Admin() {
             <PrimaryButton onClick={() => void login()}>들어가기</PrimaryButton>
           </div>
         </main>
+        <BottomNav />
       </div>
     );
   }
@@ -169,7 +171,7 @@ export function Admin() {
           </button>
         }
       />
-      <main className="flex-1 px-4 pb-12 pt-5">
+      <main className="flex-1 px-4 pb-[112px] pt-5">
         <div className="flex items-end justify-between px-1">
           <p className="text-[13px] text-ink-3">발행 카드 {rows.length}장</p>
           <p className="tnum text-[13px] text-ink-2">등록 {registered} · 미등록 {rows.length - registered}</p>
@@ -273,6 +275,7 @@ export function Admin() {
         </p>
         <p className="mt-2 break-all px-1 font-mono text-[11px] text-ink-3">럭키 목록 해시 {luckyHash}</p>
       </main>
+      <BottomNav />
 
       <BottomSheet open={confirm} onClose={() => setConfirm(false)}>
         <h2 className="text-[20px] font-bold tracking-tight">데모 초기화</h2>

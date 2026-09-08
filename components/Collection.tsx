@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { isSetComplete, useCollection } from "@/lib/collection";
+import { BottomNav } from "./BottomNav";
 import { cardHref } from "@/lib/card-link";
 import type { PublicSet } from "@/lib/public-set";
 import { BottomSheet, PrimaryButton, SecondaryButton, TopBar } from "./ui";
@@ -86,7 +87,7 @@ export function Collection({ set }: { set: PublicSet }) {
         }
       />
 
-      <main className="flex-1 px-5 pt-6 safe-bottom">
+      <main className="flex-1 px-5 pb-[112px] pt-6">
         <section className="relative overflow-hidden rounded-3xl bg-paper-2 p-5">
           {set.groupImage && (
             <>
@@ -328,6 +329,7 @@ export function Collection({ set }: { set: PublicSet }) {
           </SecondaryButton>
         </div>
       </main>
+      <BottomNav />
 
       <BottomSheet open={confirmOpen} onClose={() => setConfirmOpen(false)}>
         <h2 className="text-[20px] font-bold tracking-tight">
